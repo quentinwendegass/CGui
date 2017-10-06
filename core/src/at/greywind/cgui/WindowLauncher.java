@@ -89,6 +89,7 @@ public class WindowLauncher implements CApplicationListener{
     @Override
     public void create() {
         window.init();
+        window.initComponents();
     }
 
     @Override
@@ -98,6 +99,7 @@ public class WindowLauncher implements CApplicationListener{
 
     @Override
     public void render() {
+        window.updateComponent();
         window.drawComponent();
     }
 
