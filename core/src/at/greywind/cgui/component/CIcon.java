@@ -1,10 +1,10 @@
 package at.greywind.cgui.component;
 
-import at.greywind.cgui.Icon;
+import at.greywind.cgui.util.Icon;
 import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CGraphics;
 
-public class CIcon extends CComponent {
+public class CIcon extends CComponent implements Padable{
 
     private static final int STANDART_PADDING = 5;
 
@@ -40,8 +40,8 @@ public class CIcon extends CComponent {
     }
 
     @Override
-    public void updateComponent(CGraphics g) {
-        super.updateComponent(g);
+    public void drawComponent(CGraphics g) {
+        super.drawComponent(g);
 
         g.drawTexture(icon.getTexture(), horizontalPadding, verticalPadding, icon.getWidth(), icon.getHeight(), icon.getAngle(), CColor.WHITE);
 
@@ -85,16 +85,27 @@ public class CIcon extends CComponent {
         setHeight((int) (icon.getHeight() + 2*verticalPadding));
     }
 
+    @Override
     public void setVerticalPadding(float padding){
         verticalPadding = padding;
         adjustHeight();
     }
 
+    @Override
     public void setHorizontalPadding(float padding){
         horizontalPadding = padding;
         adjustWidth();
     }
 
+    @Override
+    public float getVerticalPadding() {
+        return verticalPadding;
+    }
+
+    @Override
+    public float getHorizontalPadding() {
+        return horizontalPadding;
+    }
 
 
 }

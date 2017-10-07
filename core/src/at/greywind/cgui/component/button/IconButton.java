@@ -1,6 +1,6 @@
 package at.greywind.cgui.component.button;
 
-import at.greywind.cgui.Icon;
+import at.greywind.cgui.util.Icon;
 import at.greywind.cgui.component.CIcon;
 import at.greywind.cgui.component.Enableable;
 import at.greywind.cgui.graphic.CColor;
@@ -16,15 +16,15 @@ public abstract class IconButton extends CIcon implements Enableable{
     protected boolean pressed;
     protected boolean isEnabled;
 
-    public IconButton(Icon upIcon, Icon downIcon, int x, int y) {
-        super(upIcon, x, y, 0, 0);
+    public IconButton(Icon upIcon, Icon downIcon, int x, int y, int width, int height) {
+        super(upIcon, x, y, width, height);
         this.upIcon = upIcon;
         this.downIcon = downIcon;
     }
 
     @Override
-    public void updateComponent(CGraphics g) {
-        super.updateComponent(g);
+    public void drawComponent(CGraphics g) {
+        super.drawComponent(g);
 
         if(!isEnabled){
             g.setColor(DISABLED_BACKGROUND_OVERLAY);

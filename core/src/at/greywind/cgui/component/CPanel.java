@@ -6,9 +6,19 @@ import at.greywind.cgui.layout.Layoutable;
 
 public class CPanel extends CComponent implements Layoutable, Debugable {
 
+    private static final int DEFAULT_SIZE = 50;
+
     private CLayout layout;
 
     private boolean debugMode = false;
+
+    public CPanel(){
+        this(0,0);
+    }
+
+    public CPanel(int x, int y){
+        this(x,y, DEFAULT_SIZE,DEFAULT_SIZE);
+    }
 
     public CPanel(int x, int y, int width, int height){
         setX(x);
@@ -18,8 +28,8 @@ public class CPanel extends CComponent implements Layoutable, Debugable {
     }
 
     @Override
-    public void updateComponent(CGraphics g) {
-        super.updateComponent(g);
+    public void drawComponent(CGraphics g) {
+        super.drawComponent(g);
         if(layout != null && debugMode) layout.debugDraw(g);
     }
 

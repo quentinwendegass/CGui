@@ -5,9 +5,9 @@ public interface ClickListener extends CEventListener {
 
     void clicked(int x, int y);
 
-    void pressed(int x, int y);
+    default void pressed(int x, int y){}
 
-    void touchUp(int x, int y);
+    default void touchUp(int x, int y){}
 
-    void touchDown(int x, int y);
+    default void touchDown(int x, int y){}
 }

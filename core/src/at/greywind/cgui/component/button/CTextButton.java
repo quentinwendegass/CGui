@@ -5,8 +5,20 @@ import at.greywind.cgui.text.CFont;
 
 public class CTextButton extends TextButton implements IButton {
 
+    public CTextButton(CFont font) {
+        this("", font);
+    }
+
+    public CTextButton(String text, CFont font) {
+        this(text, font, 0, 0);
+    }
+
     public CTextButton(String text, CFont font, int x, int y) {
-        super(text, font, x, y, 0,0);
+        this(text, font, x, y, 0, 0);
+    }
+
+    public CTextButton(String text, CFont font, int x, int y, int width, int height) {
+        super(text, font, x, y, width,height);
 
         setBackground(upBackground);
         setBorder(upBorder);

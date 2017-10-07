@@ -7,9 +7,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		WindowLauncher launcher = new WindowLauncher();
 		launcher.setTitle("Test");
-		launcher.setWidth(500);
-		launcher.setHeight(500);
-		launcher.setResizable(false);
+		launcher.setWindowSize(500, 500);
+		launcher.setIdleFPS(120);
+		launcher.setResizable(true);
 		launcher.start(new TestWindow(launcher));
 	}
 }

@@ -1,89 +1,80 @@
 package at.greywind.cgui;
 
+import at.greywind.cgui.util.CApplicationListener;
 import com.badlogic.gdx.Files;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
-public class WindowLauncher implements CApplicationListener{
+public class WindowLauncher implements CApplicationListener {
 
-    private LwjglApplicationConfiguration configuration;
+    private Lwjgl3ApplicationConfiguration configuration;
     private CWindow window;
 
+    private String title;
+    private boolean isFullscreen = false;
+    private boolean isResizable = true;
+
+
     public WindowLauncher() {
-        configuration = new LwjglApplicationConfiguration();
+        configuration = new Lwjgl3ApplicationConfiguration();
     }
 
     public void start(CWindow window){
         this.window = window;
-        new LwjglApplication(this, configuration);
+        new Lwjgl3Application(this, configuration);
+
     }
 
-    public void setWidth(int width){
-        configuration.width = width;
+    public void setWindowSize(int width, int height){
+        configuration.setWindowedMode(width, height);
     }
 
-    public void setHeight(int height){
-        configuration.height = height;
+    public void setWindowPosition(int x, int y){
+        configuration.setWindowPosition(x, y);
     }
 
-    public void setX(int x){
-        configuration.x = x;
-    }
-
-    public void setY(int y){
-        configuration.y = y;
-    }
-
-    public void setForegroundFPS(int fps){
-        configuration.foregroundFPS = fps;
-    }
-
-    public void setBackgroundFPS(int fps){
-        configuration.backgroundFPS = fps;
+    public void setIdleFPS(int fps){
+        configuration.setIdleFPS(fps);
     }
 
     public void setFullscreen(boolean fullscreen){
-        configuration.fullscreen = fullscreen;
+        configuration.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        this.isFullscreen = fullscreen;
     }
 
     public void setResizable(boolean resizable){
-        configuration.resizable = resizable;
+        configuration.setResizable(resizable);
+        this.isResizable = resizable;
     }
 
     public void setTitle(String title){
-        configuration.title = title;
+        configuration.setTitle(title);
+        this.title = title;
     }
 
     public void setIcon(String internalPath){
-        configuration.addIcon(internalPath, Files.FileType.Internal);
-    }
-
-    public int getX(){
-        return configuration.x;
-    }
-
-    public int getY(){
-        return configuration.y;
+        configuration.setWindowIcon(Files.FileType.Internal, internalPath);
     }
 
     public int getWidth(){
-        return configuration.width;
+        return Gdx.graphics.getWidth();
     }
 
     public int getHeight(){
-        return configuration.height;
+        return Gdx.graphics.getHeight();
     }
 
     public String getTitle(){
-        return configuration.title;
+        return title;
     }
 
     public boolean isFullscreen(){
-        return configuration.fullscreen;
+        return isFullscreen;
     }
 
     public boolean isResizable(){
-        return configuration.resizable;
+        return isResizable;
     }
 
     @Override
@@ -94,7 +85,7 @@ public class WindowLauncher implements CApplicationListener{
 
     @Override
     public void resize(int width, int height) {
-
+        window.windowResized(width, height);
     }
 
     @Override

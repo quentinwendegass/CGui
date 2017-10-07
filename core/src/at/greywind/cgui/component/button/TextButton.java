@@ -33,8 +33,8 @@ public abstract class TextButton extends CLabel implements Enableable{
     }
 
     @Override
-    public void updateComponent(CGraphics g) {
-        super.updateComponent(g);
+    public void drawComponent(CGraphics g) {
+        super.drawComponent(g);
 
         if(!isEnabled){
             g.setColor(DISABLED_BACKGROUND_OVERLAY);

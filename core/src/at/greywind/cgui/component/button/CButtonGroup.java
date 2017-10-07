@@ -11,6 +11,8 @@ public class CButtonGroup implements ChangeListener{
     private boolean isNoButtonPressedAllowed = true;
     private IToggleButton pressedButton;
 
+    private ArrayList<ChangeListener> listeners = new ArrayList<>();
+
     public CButtonGroup(){
         buttons = new ArrayList<>();
     }
@@ -23,18 +25,19 @@ public class CButtonGroup implements ChangeListener{
             }
         }else if(value == false){
             pressedButton = null;
+            listeners.forEach((l)->l.changed(value, cComponent));
         }
 
         if(value == true){
             if(pressedButton != null) pressedButton.setPressedWithoutEvent(false);
             pressedButton = (IToggleButton) cComponent;
+            listeners.forEach((l)->l.changed(value, cComponent));
         }
 
         if(pressedButton != null){
             if(!pressedButton.isPressed())
                 pressedButton.setPressedWithoutEvent(true);
         }
-
     }
 
     public void addButton(IToggleButton button){
@@ -42,8 +45,10 @@ public class CButtonGroup implements ChangeListener{
             if(pressedButton != null) pressedButton.setPressedWithoutEvent(false);
             pressedButton = button;
         }
-        if(!isNoButtonPressedAllowed && pressedButton == null)
+        if(!isNoButtonPressedAllowed && pressedButton == null){
             pressedButton = button;
+            pressedButton.setPressedWithoutEvent(true);
+        }
 
         if(button instanceof CComponent) ((CComponent) button).addChangeListener(this);
         buttons.add(button);
@@ -59,8 +64,14 @@ public class CButtonGroup implements ChangeListener{
             this.buttons.add(b);
         }
 
-        if(!isNoButtonPressedAllowed && pressedButton == null)
+        if(!isNoButtonPressedAllowed && pressedButton == null){
             pressedButton = buttons[0];
+            pressedButton.setPressedWithoutEvent(true);
+        }
+    }
+
+    public void addChangeListener(ChangeListener listener){
+        listeners.add(listener);
     }
 
     public IToggleButton getPressedButton() {

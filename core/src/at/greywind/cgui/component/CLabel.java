@@ -5,7 +5,7 @@ import at.greywind.cgui.graphic.CColorGradient;
 import at.greywind.cgui.graphic.CGraphics;
 import at.greywind.cgui.text.CFont;
 
-public class CLabel extends CComponent{
+public class CLabel extends CComponent implements Padable{
 
     private static final int STANDART_PADDING = 10;
 
@@ -39,8 +39,8 @@ public class CLabel extends CComponent{
     }
 
     @Override
-    public void updateComponent(CGraphics g) {
-        super.updateComponent(g);
+    public void drawComponent(CGraphics g) {
+        super.drawComponent(g);
 
         g.setFont(font);
         g.drawText(text, horizontalPadding, verticalPadding + font.getHeight(text));
@@ -80,8 +80,8 @@ public class CLabel extends CComponent{
 
     public void setText(String text) {
         this.text = text;
-        adjustHorizontalPadding();
-        adjustVerticalPadding();
+        adjustWidth();
+        adjustHeight();
     }
 
     public CFont getFont() {
@@ -94,13 +94,25 @@ public class CLabel extends CComponent{
         adjustVerticalPadding();
     }
 
+    @Override
     public void setVerticalPadding(float padding){
         verticalPadding = padding;
         adjustHeight();
     }
 
+    @Override
     public void setHorizontalPadding(float padding){
         horizontalPadding = padding;
         adjustWidth();
+    }
+
+    @Override
+    public float getVerticalPadding() {
+        return verticalPadding;
+    }
+
+    @Override
+    public float getHorizontalPadding() {
+        return horizontalPadding;
     }
 }

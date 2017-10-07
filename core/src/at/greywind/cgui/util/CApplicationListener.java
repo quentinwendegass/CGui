@@ -1,4 +1,4 @@
-package at.greywind.cgui;
+package at.greywind.cgui.util;
 
 import com.badlogic.gdx.ApplicationListener;
 

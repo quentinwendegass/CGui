@@ -4,6 +4,7 @@ package at.greywind.cgui.graphic;
 import at.greywind.cgui.component.CComponent;
 import at.greywind.cgui.text.CFont;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -157,6 +158,11 @@ public class CGraphics {
 
     private Color getColor(CColor c){
         return new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+    }
+
+    public void setViewport(Camera camera){
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        spriteBatch.setProjectionMatrix(camera.combined);
     }
 
 }

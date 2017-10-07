@@ -1,12 +1,22 @@
 package at.greywind.cgui.component.button;
 
-import at.greywind.cgui.Icon;
+import at.greywind.cgui.util.Icon;
 import at.greywind.cgui.event.ChangeEvent;
 
 public class CToggleIconButton extends IconButton implements IToggleButton {
 
+    public CToggleIconButton(Icon upicon, Icon downIcon) {
+        this(upicon, downIcon, 0, 0);
+    }
+
+
     public CToggleIconButton(Icon upicon, Icon downIcon, int x, int y) {
-        super(upicon, downIcon, x, y);
+        this(upicon, downIcon, x, y, 0,0);
+    }
+
+
+    public CToggleIconButton(Icon upicon, Icon downIcon, int x, int y, int width, int height) {
+        super(upicon, downIcon, x, y, width, height);
 
         addMouseListener(this);
         addClickListener(this);

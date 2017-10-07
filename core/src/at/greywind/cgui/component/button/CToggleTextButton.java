@@ -5,8 +5,20 @@ import at.greywind.cgui.text.CFont;
 
 public class CToggleTextButton extends TextButton implements IToggleButton {
 
-    public CToggleTextButton(String text, CFont font, int x, int y) {
-        super(text, font, x, y, 0,0);
+    public CToggleTextButton(CFont font){
+        this("", font);
+    }
+
+    public CToggleTextButton(String text, CFont font){
+        this(text, font, 0, 0);
+    }
+
+    public CToggleTextButton(String text, CFont font, int x, int y){
+        this(text, font, x, y, 0,0);
+    }
+
+    public CToggleTextButton(String text, CFont font, int x, int y, int width, int height) {
+        super(text, font, x, y, width,height);
 
         setBackground(upBackground);
         setBorder(upBorder);
