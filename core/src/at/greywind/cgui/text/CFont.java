@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public abstract class CFont {
 
+
     protected FileHandle handle;
     protected BitmapFont font;
     protected GlyphLayout glyphLayout;
