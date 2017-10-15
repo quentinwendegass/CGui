@@ -5,14 +5,13 @@ import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CGraphics;
 import at.greywind.cgui.text.CFont;
 
-public class CTextField extends TextComponent implements KeyListener, Padable{
+public class CTextField extends TextComponent implements KeyListener{
 
-    private final static int STANDART_PADDING = 5;
+    private final static int STANDARD_PADDING = 5;
 
     private int charOffset = 0;
 
     private float horizontalPadding;
-    private float verticalPadding;
 
 
     public CTextField(CFont font){
@@ -28,12 +27,10 @@ public class CTextField extends TextComponent implements KeyListener, Padable{
 
         if(width == 0|| height == 0){
             setWidth(100);
-            setHorizontalPadding(STANDART_PADDING);
-            setHeight((int) (font.getHeight(text) + 2*STANDART_PADDING));
+            setHeight((int) (font.getHeight(text) + 2* STANDARD_PADDING));
         }else{
             setWidth(width);
             setHeight(height);
-            setHorizontalPadding(STANDART_PADDING);
         }
 
       addKeyListener(this);
@@ -113,39 +110,11 @@ public class CTextField extends TextComponent implements KeyListener, Padable{
         }
     }
 
-    @Override
-    public void setHeight(int height) {
-        super.setHeight(height);
-        adjustVerticalPadding();
-    }
-
-    @Override
-    public void setVerticalPadding(float padding) {
-        verticalPadding = padding;
-        adjustHeight();
-    }
-
-    @Override
-    public void setHorizontalPadding(float padding) {
-        horizontalPadding = padding;
-    }
-
-    @Override
-    public float getVerticalPadding() {
-        return verticalPadding;
-    }
-
-    @Override
-    public float getHorizontalPadding() {
+    public float getHorizontalTextPadding(){
         return horizontalPadding;
     }
 
-
-    private void adjustVerticalPadding(){
-        verticalPadding = getHeight() / 2 - font.getHeight(text) / 2;
-    }
-
-    private void adjustHeight(){
-        setHeight((int) (font.getHeight(text) + 2*verticalPadding));
+    public void setHorizontalTextPadding(float padding){
+        horizontalPadding = padding;
     }
 }

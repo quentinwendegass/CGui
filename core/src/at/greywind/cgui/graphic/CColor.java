@@ -7,9 +7,28 @@ public final class CColor {
     public static final CColor CLEAR = new CColor(0f, 0f, 0f, 0f);
     public static final CColor BLACK = new CColor(0f, 0f, 0f);
     public static final CColor RED = new CColor(1f, 0f, 0f);
-    public static final CColor GREEN = new CColor(0f, 1f, 0f);
+    public static final CColor GREEN = new CColor(0, 128, 0);
     public static final CColor BLUE = new CColor(0f, 0f, 1f);
     public static final CColor LIGHT_BLUE = new CColor(100, 200, 255);
+    public static final CColor BLUE_VIOLET = new CColor(138, 43, 226);
+    public static final CColor BEIGE = new CColor(245, 245, 220);
+    public static final CColor CORAL = new CColor(255, 127, 80);
+    public static final CColor CYAN = new CColor(0, 255, 255);
+    public static final CColor DARK_BLUE = new CColor(0, 0, 139);
+    public static final CColor GOLD = new CColor(184, 134, 11);
+    public static final CColor DARK_MAGENTA = new CColor(139, 0, 139);
+    public static final CColor ORANGE = new CColor(255, 140, 0);
+    public static final CColor TURQUOISE = new CColor(0, 206, 209);
+    public static final CColor PINK = new CColor(255, 20, 147);
+    public static final CColor INDIGO = new CColor(75, 0, 130);
+    public static final CColor LIGHT_GREEN = new CColor(144, 238, 144);
+    public static final CColor LIGHT_PINK = new CColor(255, 182, 193);
+    public static final CColor NAVY = new CColor(0, 0, 128);
+    public static final CColor OLIVE = new CColor(128, 128, 0);
+    public static final CColor BROWN = new CColor(165, 42, 42);
+    public static final CColor YELLOW= new CColor(255, 255, 0);
+    public static final CColor AQUA = new CColor(0, 255, 255);
+
 
     private float red;
     private float green;

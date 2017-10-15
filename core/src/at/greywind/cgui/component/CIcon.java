@@ -4,9 +4,12 @@ import at.greywind.cgui.util.Icon;
 import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CGraphics;
 
-public class CIcon extends CComponent implements Padable{
+/**
+ *
+ */
+public class CIcon extends CComponent {
 
-    private static final int STANDART_PADDING = 5;
+    private static final int STANDARD_PADDING = 5;
 
     private Icon icon;
 
@@ -25,14 +28,15 @@ public class CIcon extends CComponent implements Padable{
         this(new Icon(internalPath), x, y, 0,0);
     }
 
+
     public CIcon(Icon icon, int x, int y, int width, int height){
         this.icon = icon;
         setBackground(CColor.CLEAR);
         setX(x);
         setY(y);
         if(width == 0 || height == 0){
-            setWidth((int)icon.getWidth() + 2*STANDART_PADDING);
-            setHeight((int)icon.getHeight() + 2*STANDART_PADDING);
+            setWidth((int)icon.getWidth() + 2* STANDARD_PADDING);
+            setHeight((int)icon.getHeight() + 2* STANDARD_PADDING);
         }else{
             setWidth(width);
             setHeight(height);
@@ -83,28 +87,6 @@ public class CIcon extends CComponent implements Padable{
 
     private void adjustHeight(){
         setHeight((int) (icon.getHeight() + 2*verticalPadding));
-    }
-
-    @Override
-    public void setVerticalPadding(float padding){
-        verticalPadding = padding;
-        adjustHeight();
-    }
-
-    @Override
-    public void setHorizontalPadding(float padding){
-        horizontalPadding = padding;
-        adjustWidth();
-    }
-
-    @Override
-    public float getVerticalPadding() {
-        return verticalPadding;
-    }
-
-    @Override
-    public float getHorizontalPadding() {
-        return horizontalPadding;
     }
 
 

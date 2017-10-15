@@ -1,47 +1,34 @@
 package at.greywind.cgui.layout;
 
-import at.greywind.cgui.component.CComponent;
-import at.greywind.cgui.graphic.CColor;
-import at.greywind.cgui.graphic.CGraphics;
 
-import java.util.ArrayList;
+public interface CLayout{
 
-public abstract class CLayout {
 
-    protected ArrayList<Cell> cells = new ArrayList<>();
-    protected CComponent layoutComponent;
+    Cell align(int alignment);
 
-    public abstract void set(CComponent component);
+    Cell padLeft(int padding);
 
-    public abstract void width(float width);
+    Cell padRight(int padding);
 
-    public abstract void height(float height);
+    Cell padBottom(int padding);
 
-    public abstract void paddingTop(float margin);
+    Cell padTop(int padding);
 
-    public abstract void paddingBottom(float margin);
+    Cell pad(int padding);
 
-    public abstract void paddingLeft(float margin);
+    Cell pad(int left, int right, int bottom, int top);
 
-    public abstract void paddingRight(float margin);
+    Cell center();
 
-    public abstract void marginTop(float margin);
+    Cell top();
 
-    public abstract void marginBottom(float margin);
+    Cell right();
 
-    public abstract void marginLeft(float margin);
+    Cell bottom();
 
-    public abstract void marginRight(float margin);
+    Cell left();
 
-    public void setLayoutable(Layoutable layoutable){
-        layoutComponent = (CComponent) layoutable;
-    }
+    Cell width(int width);
 
-    public void debugDraw(CGraphics g){
-        g.setColor(CColor.RED);
-        g.setComponent(layoutComponent);
-        for(Cell c : cells){
-            g.drawRect(c.getX(), c.getY(), c.getWidth(), c.getHeight(), 2);
-        }
-    }
+    Cell height(int height);
 }

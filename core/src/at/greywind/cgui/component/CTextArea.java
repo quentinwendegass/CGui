@@ -7,16 +7,17 @@ import at.greywind.cgui.text.CFont;
 
 import java.util.ArrayList;
 
-public class CTextArea extends TextComponent implements KeyListener, Padable{
+public class CTextArea extends TextComponent implements KeyListener{
 
-    private static final float STANDART_PADDING = 5;
+    private static final float STANDARD_PADDING = 5;
 
     private ArrayList<String> lines = new ArrayList<>();
 
-    private int lineHeight = 20;
+    private int lineHeight;
 
-    private float verticalPadding = STANDART_PADDING;
-    private float horizontalPadding = STANDART_PADDING;
+    private float verticalPadding = STANDARD_PADDING;
+    private float horizontalPadding = STANDARD_PADDING;
+
 
     public CTextArea(CFont font){
         this(font, 0, 0);
@@ -31,6 +32,7 @@ public class CTextArea extends TextComponent implements KeyListener, Padable{
         lines.add("");
 
         addKeyListener(this);
+        lineHeight = (int) font.getHeight() * 2;
     }
 
     public void appendNewLine(String text){
@@ -103,6 +105,18 @@ public class CTextArea extends TextComponent implements KeyListener, Padable{
         }
     }
 
+    @Override
+    public void setText(String text) {
+        super.setText(text);
+        checkLines();
+    }
+
+    @Override
+    public void append(String text) {
+        super.append(text);
+        checkLines();
+    }
+
     private void checkLines(){
         lines.clear();
 
@@ -116,15 +130,15 @@ public class CTextArea extends TextComponent implements KeyListener, Padable{
             if(font.getWidth(lines.get(lines.size() - 1)) > getWidth() - 2*horizontalPadding){
                 String oldLine = lines.get(lines.size() - 1);
 
-                try{
-                    String newLine = oldLine.substring(oldLine.lastIndexOf(' '), oldLine.length());
-                    oldLine = oldLine.substring(0, oldLine.lastIndexOf(' '));
+                if(oldLine.lastIndexOf(' ') > 0) {
+                    String newLine = oldLine.substring(oldLine.lastIndexOf(' ') + 1, oldLine.length());
+                    oldLine = oldLine.substring(0, oldLine.lastIndexOf(' ') + 1);
 
                     lines.add("");
 
                     lines.set(lines.size() - 2, oldLine);
                     lines.set(lines.size() - 1, newLine);
-                }catch (IndexOutOfBoundsException e){
+                }else {
                     lines.add("");
                     lines.set(lines.size() - 1, lines.get(lines.size() - 2).substring(lines.get(lines.size() - 2).length() - 1));
                     lines.set(lines.size() - 2, lines.get(lines.size() - 2).substring(0, lines.get(lines.size() - 2).length() - 1));
@@ -160,28 +174,22 @@ public class CTextArea extends TextComponent implements KeyListener, Padable{
                 }
             }
         }
-
-
-
     }
 
-    @Override
-    public void setVerticalPadding(float padding) {
-        verticalPadding = padding;
+    public float getHorizontalTextPadding(){
+        return horizontalPadding;
     }
 
-    @Override
-    public void setHorizontalPadding(float padding) {
+    public void setHorizontalTextPadding(float padding){
         horizontalPadding = padding;
     }
 
-    @Override
-    public float getVerticalPadding() {
+    public float getVerticalTextPadding(){
         return verticalPadding;
     }
 
-    @Override
-    public float getHorizontalPadding() {
-        return horizontalPadding;
+    public void setVerticalTextPadding(float padding){
+        verticalPadding = padding;
     }
+
 }

@@ -9,13 +9,14 @@ import at.greywind.cgui.text.CFont;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor;
 
+import java.awt.*;
+
 public abstract class TextComponent extends CComponent implements MouseListener, FocusListener, Enableable{
 
     protected float timer = 0;
     protected boolean cursorActive = true;
     protected boolean drawCursor = false;
     protected int cursorPosition = 0;
-
 
     protected boolean isEnabled = true;
 
@@ -24,6 +25,7 @@ public abstract class TextComponent extends CComponent implements MouseListener,
 
     protected final CColor DISABLED_BACKGROUND_OVERLAY = new CColor(115,115,115, 155);
     private final static float BLINK_TIME = 0.5f;
+
 
     public TextComponent(CFont font, int x, int y, int width, int height){
         this.font = font;

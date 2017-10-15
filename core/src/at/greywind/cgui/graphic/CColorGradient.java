@@ -18,6 +18,10 @@ public final class CColorGradient {
         init(color, color, color, color);
     }
 
+    public CColorGradient(CColor first, CColor second){
+        this(first, second, GradientDirection.HORIZONTAL);
+    }
+
     public CColorGradient(CColor first, CColor second, GradientDirection direction){
         switch (direction){
             case VERTICAL:

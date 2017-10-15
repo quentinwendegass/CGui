@@ -25,6 +25,11 @@ public abstract class TextButton extends CLabel implements Enableable{
 
     public TextButton(String text, CFont font, int x, int y, int width, int height) {
         super(text, font, x, y, width, height);
+
+        if(width <= 0){
+            setWidth(40);
+            setHeight(20);
+        }
     }
 
     @Override
