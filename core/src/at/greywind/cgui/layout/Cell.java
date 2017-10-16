@@ -4,7 +4,9 @@ import at.greywind.cgui.component.CComponent;
 import at.greywind.cgui.event.ComponentListener;
 import at.greywind.cgui.graphic.CGraphics;
 
-public class Cell extends CComponent implements CLayout, ComponentListener{
+import java.util.ArrayList;
+
+public class Cell extends CComponent implements CellLayout, ComponentListener{
 
     private CComponent content;
 
@@ -14,6 +16,12 @@ public class Cell extends CComponent implements CLayout, ComponentListener{
     private int topPadding = 0;
 
     private int alignment = Alignment.CENTER;
+
+    private ArrayList<CellListener> listeners;
+
+    public Cell(){
+        setSize(0, 0);
+    }
 
     public Cell(int width, int height){
         setSize(width, height);
@@ -26,6 +34,8 @@ public class Cell extends CComponent implements CLayout, ComponentListener{
         setWidth(content.getWidth());
         setHeight(content.getHeight());
         addComponentListener(this);
+
+        listeners = new ArrayList<>();
     }
 
     @Override
@@ -100,12 +110,14 @@ public class Cell extends CComponent implements CLayout, ComponentListener{
     @Override
     public Cell width(int width) {
         setWidth(width);
+        listeners.forEach(l -> l.resizeAction());
         return this;
     }
 
     @Override
     public Cell height(int height) {
         setHeight(height);
+        listeners.forEach(l -> l.resizeAction());
         return this;
     }
 
@@ -169,8 +181,7 @@ public class Cell extends CComponent implements CLayout, ComponentListener{
         return content;
     }
 
-    @Override
-    public void moved(int x, int y) {
-
+    public void addCellListener(CellListener listener){
+        listeners.add(listener);
     }
 }

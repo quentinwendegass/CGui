@@ -1,7 +1,7 @@
 package at.greywind.cgui.layout;
 
 
-public interface CLayout{
+public interface CellLayout {
 
 
     Cell align(int alignment);

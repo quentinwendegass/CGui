@@ -1,32 +1,26 @@
 package at.greywind.cgui.layout;
 
-import at.greywind.cgui.event.ComponentListener;
-
 import java.util.ArrayList;
 
-public class Row implements ComponentListener {
+public class Row{
 
     private ArrayList<Cell> cells;
 
-    private int height = 0;
 
-    private ComponentListener listener;
-
-    public Row(ComponentListener listener){
-        this.listener = listener;
+    public Row(){
         cells = new ArrayList<>();
     }
 
     public void addCell(Cell c){
-        adjustHeight(c.getHeight());
-        c.addComponentListener(this);
         cells.add(c);
     }
 
     public void addCell(int index, Cell c){
-        adjustHeight(c.getHeight());
-        c.addComponentListener(this);
         cells.add(index, c);
+    }
+
+    public void setCell(Cell cell, int index){
+        cells.set(index, cell);
     }
 
     public Cell getCell(int index){
@@ -37,25 +31,4 @@ public class Row implements ComponentListener {
         return cells;
     }
 
-    @Override
-    public void resized(int width, int height) {
-        adjustHeight(height);
-        listener.resized(width, height);
-
-    }
-
-    private void adjustHeight(int newHeight){
-        if(newHeight > height){
-            height = newHeight;
-            cells.forEach(c -> c.setHeight(height));
-        }
-    }
-
-    public void setHeight(int height){
-        this.height = height;
-    }
-
-    public int getHeight(){
-        return height;
-    }
 }
