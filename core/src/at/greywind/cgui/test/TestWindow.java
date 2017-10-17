@@ -9,6 +9,7 @@ import at.greywind.cgui.text.CFontFactory;
 
 public class TestWindow extends CWindow{
 
+
     public TestWindow(WindowLauncher launcher) {
         super(launcher);
     }
