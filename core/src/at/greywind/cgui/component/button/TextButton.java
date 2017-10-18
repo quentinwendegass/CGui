@@ -17,8 +17,12 @@ public abstract class TextButton extends CLabel implements Enableable{
 
     protected CColorGradient downBackground = DEFAULT_DOWN_BACKGROUND;
     protected CColorGradient upBackground = DEFAULT_UP_BACKGROUND;
+    protected CColorGradient mouseOverBackground = DEFAULT_UP_BACKGROUND;
+
     protected CBorder downBorder = CBorderFactory.createLineBorder();
     protected CBorder upBorder = CBorderFactory.createLineBorder();
+    protected CBorder mouseOverBorder = CBorderFactory.createLineBorder();
+
 
     protected boolean pressed = false;
     protected boolean isEnabled = true;
@@ -82,5 +86,21 @@ public abstract class TextButton extends CLabel implements Enableable{
 
     public void setUpBorder(CBorder upBorder) {
         this.upBorder = upBorder;
+    }
+
+    public CColorGradient getMouseOverBackground() {
+        return mouseOverBackground;
+    }
+
+    public void setMouseOverBackground(CColorGradient mouseOverBackground) {
+        this.mouseOverBackground = mouseOverBackground;
+    }
+
+    public CBorder getMouseOverBorder() {
+        return mouseOverBorder;
+    }
+
+    public void setMouseOverBorder(CBorder mouseOverBorder) {
+        this.mouseOverBorder = mouseOverBorder;
     }
 }

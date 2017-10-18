@@ -1,6 +1,7 @@
 package at.greywind.cgui.component.button;
 
 import at.greywind.cgui.component.CComponent;
+import at.greywind.cgui.event.ChangeEvent;
 import at.greywind.cgui.event.ChangeListener;
 
 import java.util.ArrayList;
@@ -18,20 +19,20 @@ public class CButtonGroup implements ChangeListener{
     }
 
     @Override
-    public void changed(boolean value, CComponent cComponent) {
+    public void changed(boolean value, ChangeEvent event) {
         if(!isNoButtonPressedAllowed && value == false){
-            if(cComponent instanceof IToggleButton){
-                ((IToggleButton) cComponent).setPressedWithoutEvent(true);
+            if(event.getComponent() instanceof IToggleButton){
+                ((IToggleButton) event.getComponent()).setPressedWithoutEvent(true);
             }
         }else if(value == false){
             pressedButton = null;
-            listeners.forEach((l)->l.changed(value, cComponent));
+            listeners.forEach((l)->l.changed(value, event));
         }
 
         if(value == true){
             if(pressedButton != null) pressedButton.setPressedWithoutEvent(false);
-            pressedButton = (IToggleButton) cComponent;
-            listeners.forEach((l)->l.changed(value, cComponent));
+            pressedButton = (IToggleButton) event.getComponent();
+            listeners.forEach((l)->l.changed(value, event));
         }
 
         if(pressedButton != null){

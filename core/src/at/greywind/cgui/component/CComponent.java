@@ -13,9 +13,6 @@ import java.util.ArrayList;
 
 public abstract class CComponent implements Focusable, ClickListener{
 
-    public static final int RIGHT = 1;
-    public static final int TOP = 2;
-
     private int snapAlign = 0;
     private int resizeAlign = 0;
 
@@ -91,6 +88,7 @@ public abstract class CComponent implements Focusable, ClickListener{
         changeListeners.forEach((l)->event.fire(l));
     }
 
+    //TODO: fix enter() and exit() if mouse moves directly out of the window
     private void fireMouseEvent(MouseEvent event){
         boolean flag = true;
         for(CComponent c : childComponents){
@@ -185,7 +183,7 @@ public abstract class CComponent implements Focusable, ClickListener{
     }
 
     @Override
-    public void clicked(int x, int y) {
+    public void clicked(int x, int y, ClickEvent e) {
         setFocus(true);
     }
 
@@ -198,26 +196,26 @@ public abstract class CComponent implements Focusable, ClickListener{
     }
 
     public void resized(int newWidth, int newHeight, int oldWidth, int oldHeight){
-        if(snapAlign == 1){
+        if(snapAlign == 4){
             setX(newWidth - (oldWidth - getX()));
-        }else if(snapAlign == 2){
+        }else if(snapAlign == 8){
             setY(newHeight - (oldHeight - getY()));
-        }else if(snapAlign == 3){
+        }else if(snapAlign == 12){
             setX(newWidth - (oldWidth - getX()));
             setY(newHeight - (oldHeight - getY()));
         }
 
-        if(resizeAlign == 1){
+        if(resizeAlign == 4){
             if(rightSpacing >= 0)
                 setWidth(newWidth - getX() - rightSpacing);
             else
                 setWidth(getWidth() + (newWidth - oldWidth));
-        }else if(resizeAlign == 2){
+        }else if(resizeAlign == 8){
             if(topSpacing >= 0)
                 setHeight(newHeight - getY() - topSpacing);
             else
                 setHeight(getHeight() + (newHeight - oldHeight));
-        }else if(resizeAlign == 3){
+        }else if(resizeAlign == 12){
             if(rightSpacing >= 0)
                 setWidth(newWidth - getX() - rightSpacing);
             else
@@ -269,7 +267,14 @@ public abstract class CComponent implements Focusable, ClickListener{
     }
 
     public void setVisible(boolean visible){
-        this.visible = visible;
+        if(visible != this.visible){
+            this.visible = visible;
+
+            if(visible)
+                addEventToQueue(new ComponentEvent(this, ComponentEvent.Type.SHOWN));
+            else
+                addEventToQueue(new ComponentEvent(this, ComponentEvent.Type.HIDDEN));
+        }
     }
 
     public void setPosition(int x, int y){
@@ -283,7 +288,7 @@ public abstract class CComponent implements Focusable, ClickListener{
     public void setX(int x) {
         this.x = x;
 
-        addEventToQueue(new ComponentEvent(getX(), getY(), ComponentEvent.Type.MOVED));
+        addEventToQueue(new ComponentEvent(this, getX(), getY(), ComponentEvent.Type.MOVED));
 
     }
 
@@ -293,7 +298,7 @@ public abstract class CComponent implements Focusable, ClickListener{
 
     public void setY(int y) {
         this.y = y;
-        addEventToQueue(new ComponentEvent(getX(), getY(), ComponentEvent.Type.MOVED));
+        addEventToQueue(new ComponentEvent(this, getX(), getY(), ComponentEvent.Type.MOVED));
     }
 
     public int getWindowX(){
@@ -369,7 +374,7 @@ public abstract class CComponent implements Focusable, ClickListener{
 
         childComponents.forEach((c)->c.resized(this.width, getHeight(), oldWidth, getHeight()));
 
-        addEventToQueue(new ComponentEvent(getWidth(), getHeight(), ComponentEvent.Type.RESIZED));
+        addEventToQueue(new ComponentEvent(this, getWidth(), getHeight(), ComponentEvent.Type.RESIZED));
     }
 
     public int getWindowY(){
@@ -398,7 +403,7 @@ public abstract class CComponent implements Focusable, ClickListener{
 
         childComponents.forEach((c)->c.resized(getWidth(), this.height, getWidth(), oldHeight));
 
-        addEventToQueue(new ComponentEvent(getWidth(), getHeight(), ComponentEvent.Type.RESIZED));
+        addEventToQueue(new ComponentEvent(this, getWidth(), getHeight(), ComponentEvent.Type.RESIZED));
     }
 
     public CColorGradient getBackground() {
@@ -443,6 +448,9 @@ public abstract class CComponent implements Focusable, ClickListener{
     }
 
     public void addEventToQueue(CEvent event){
+        if(event instanceof ClickEvent || event instanceof MouseEvent)
+            ((AbstractEvent) event).setComponent(this);
+
         eventQueue.addFirst(event);
     }
 
@@ -450,7 +458,7 @@ public abstract class CComponent implements Focusable, ClickListener{
         if(window!=null) cComponent.registerToWindow(window);
         cComponent.parentComponent = this;
         cComponent.setEventIndex(getEventIndex());
-        cComponent.addEventToQueue(new ComponentEvent(this));
+        cComponent.addEventToQueue(new ComponentEvent(this, ComponentEvent.Type.ADDED));
         childComponents.add(cComponent);
     }
 

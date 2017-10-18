@@ -1,7 +1,7 @@
 package at.greywind.cgui.event;
 
 
-public class ClickEvent extends AbstractEvent<ClickListener> {
+public class ClickEvent extends PositionEvent<ClickListener> {
 
     private ClickType type;
 
@@ -22,16 +22,16 @@ public class ClickEvent extends AbstractEvent<ClickListener> {
     public void fire(ClickListener listener) {
         switch (type){
             case PRESS:
-                listener.pressed(x, y);
+                listener.pressed(x, y, this);
                 break;
             case CLICKED:
-                listener.clicked(x, y);
+                listener.clicked(x, y, this);
                 break;
             case TOUCH_UP:
-                listener.touchUp(x, y);
+                listener.touchUp(x, y, this);
                 break;
             case TOUCH_DOWN:
-                listener.touchDown(x, y);
+                listener.touchDown(x, y, this);
                 break;
         }
     }

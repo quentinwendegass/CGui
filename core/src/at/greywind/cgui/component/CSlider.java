@@ -1,5 +1,6 @@
 package at.greywind.cgui.component;
 
+import at.greywind.cgui.event.ClickEvent;
 import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CGraphics;
 import com.badlogic.gdx.Gdx;
@@ -75,7 +76,7 @@ public class CSlider extends CComponent{
     }
 
     @Override
-    public void touchDown(int x, int y) {
+    public void touchDown(int x, int y, ClickEvent e) {
         sliderMoved = true;
     }
 

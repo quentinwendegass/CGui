@@ -1,9 +1,13 @@
 package at.greywind.cgui.component;
 
+import at.greywind.cgui.event.ClickEvent;
+import at.greywind.cgui.event.KeyEvent;
 import at.greywind.cgui.event.KeyListener;
 import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CGraphics;
 import at.greywind.cgui.text.CFont;
+
+import java.security.Key;
 
 public class CTextField extends TextComponent implements KeyListener{
 
@@ -63,7 +67,7 @@ public class CTextField extends TextComponent implements KeyListener{
 
 
     @Override
-    public void keyDown(int keycode, String key) {
+    public void keyDown(int keycode, String key, KeyEvent e) {
         if(isEnabled){
             if(keycode == 22 && cursorPosition < text.length()){
                 cursorPosition++;
@@ -74,7 +78,7 @@ public class CTextField extends TextComponent implements KeyListener{
     }
 
     @Override
-    public void keyTyped(int keycode, String key) {
+    public void keyTyped(int keycode, String key, KeyEvent e) {
 
         if(isEnabled) {
             keyTyped(keycode);
@@ -93,10 +97,10 @@ public class CTextField extends TextComponent implements KeyListener{
     }
 
     @Override
-    public void keyUp(int keycode, String key) { }
+    public void keyUp(int keycode, String key, KeyEvent e) { }
 
     @Override
-    public void touchDown(int x, int y) {
+    public void touchDown(int x, int y, ClickEvent e) {
         if(isEnabled) {
             for (int i = charOffset; i < text.length(); i++) {
                 if (font.getWidth(text.substring(charOffset, i)) < x - horizontalPadding && font.getWidth(text.substring(charOffset, i + 1)) > x - horizontalPadding) {

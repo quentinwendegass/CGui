@@ -12,6 +12,7 @@ public abstract class IconButton extends CIcon implements Enableable{
 
     protected Icon upIcon;
     protected Icon downIcon;
+    protected Icon mouseOverIcon;
 
     protected boolean pressed;
     protected boolean isEnabled;
@@ -20,6 +21,7 @@ public abstract class IconButton extends CIcon implements Enableable{
         super(upIcon, x, y, width, height);
         this.upIcon = upIcon;
         this.downIcon = downIcon;
+        this.mouseOverIcon = upIcon;
     }
 
     @Override
@@ -56,5 +58,13 @@ public abstract class IconButton extends CIcon implements Enableable{
 
     public void setDownIcon(Icon downIcon) {
         this.downIcon = downIcon;
+    }
+
+    public Icon getMouseOverIcon() {
+        return mouseOverIcon;
+    }
+
+    public void setMouseOverIcon(Icon mouseOverIcon) {
+        this.mouseOverIcon = mouseOverIcon;
     }
 }

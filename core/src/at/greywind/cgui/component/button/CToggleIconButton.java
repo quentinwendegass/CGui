@@ -1,5 +1,7 @@
 package at.greywind.cgui.component.button;
 
+import at.greywind.cgui.event.ClickEvent;
+import at.greywind.cgui.event.MouseEvent;
 import at.greywind.cgui.util.Icon;
 import at.greywind.cgui.event.ChangeEvent;
 
@@ -54,7 +56,7 @@ public class CToggleIconButton extends IconButton implements IToggleButton {
     }
 
     @Override
-    public void touchUp(int x, int y) {
+    public void touchUp(int x, int y, ClickEvent e) {
         if(isEnabled){
             pressed = !pressed;
             set();
@@ -63,14 +65,23 @@ public class CToggleIconButton extends IconButton implements IToggleButton {
     }
 
     @Override
-    public void touchDown(int x, int y) {
+    public void touchDown(int x, int y, ClickEvent e) {
         if(isEnabled){
             setIcon(downIcon);
         }
     }
 
     @Override
-    public void exit() {
+    public void enter(MouseEvent e){
+        if(isEnabled){
+            if(!pressed) {
+                setIcon(mouseOverIcon);
+            }
+        }
+    }
+
+    @Override
+    public void exit(MouseEvent e) {
         if(isEnabled){
             if(!pressed){
                 setIcon(upIcon);

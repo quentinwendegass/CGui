@@ -4,7 +4,9 @@ package at.greywind.cgui.layout;
 import at.greywind.cgui.border.CBorderFactory;
 import at.greywind.cgui.component.CComponent;
 import at.greywind.cgui.component.Debugable;
+import at.greywind.cgui.event.ComponentEvent;
 import at.greywind.cgui.event.ComponentListener;
+import at.greywind.cgui.event.MouseEvent;
 import at.greywind.cgui.graphic.CColor;
 
 
@@ -37,7 +39,7 @@ public class CBox extends CComponent implements ComponentListener, Debugable{
     }
 
     @Override
-    public void resized(int width, int height) {
+    public void resized(int width, int height, ComponentEvent e) {
         if(orientation == Orientation.VERTICAL){
             int iHeight = getHeight();
             int maxHeight = 0;
@@ -90,7 +92,7 @@ public class CBox extends CComponent implements ComponentListener, Debugable{
     }
 
     @Override
-    public void moved(int x, int y) {
+    public void moved(int x, int y, ComponentEvent e) {
 
     }
 }

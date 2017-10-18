@@ -1,5 +1,7 @@
 package at.greywind.cgui.component.button;
 
+import at.greywind.cgui.event.ClickEvent;
+import at.greywind.cgui.event.MouseEvent;
 import at.greywind.cgui.util.Icon;
 import at.greywind.cgui.event.ChangeEvent;
 
@@ -27,7 +29,7 @@ public class CIconButton extends IconButton implements IButton{
 
 
     @Override
-    public void touchUp(int x, int y) {
+    public void touchUp(int x, int y, ClickEvent e) {
         if(isEnabled){
             setIcon(upIcon);
             addEventToQueue(new ChangeEvent(pressed, this));
@@ -35,7 +37,7 @@ public class CIconButton extends IconButton implements IButton{
     }
 
     @Override
-    public void touchDown(int x, int y) {
+    public void touchDown(int x, int y, ClickEvent e) {
         if(isEnabled) {
             setIcon(downIcon);
             addEventToQueue(new ChangeEvent(pressed, this));
@@ -43,12 +45,24 @@ public class CIconButton extends IconButton implements IButton{
     }
 
     @Override
-    public void exit() {
+    public void enter(MouseEvent e){
         if(isEnabled){
-            if(pressed) {
-                setIcon(upIcon);
+            if(!pressed) {
+                setIcon(mouseOverIcon);
+            }
+        }
+    }
+
+    @Override
+    public void exit(MouseEvent e) {
+        if(isEnabled){
+            setIcon(upIcon);
+
+            if(pressed){
+                pressed = false;
                 addEventToQueue(new ChangeEvent(pressed, this));
             }
+
         }
     }
 }

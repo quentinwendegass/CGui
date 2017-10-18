@@ -1,6 +1,7 @@
 package at.greywind.cgui.layout;
 
 import at.greywind.cgui.component.CComponent;
+import at.greywind.cgui.event.ComponentEvent;
 import at.greywind.cgui.event.ComponentListener;
 import at.greywind.cgui.graphic.CGraphics;
 
@@ -50,7 +51,7 @@ public class Cell extends CComponent implements CellLayout, ComponentListener{
 
 
     @Override
-    public void resized(int width, int height) {
+    public void resized(int width, int height, ComponentEvent e) {
         refresh();
     }
 

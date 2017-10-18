@@ -1,6 +1,8 @@
 package at.greywind.cgui.event;
 
-public class KeyEvent implements CEvent<KeyListener> {
+import at.greywind.cgui.component.CComponent;
+
+public class KeyEvent extends AbstractEvent<KeyListener> {
 
     private int keycode;
     private String key;
@@ -10,7 +12,8 @@ public class KeyEvent implements CEvent<KeyListener> {
         KEY_UP, KEY_DOWN, KEY_TYPED
     }
 
-    public KeyEvent(int keycode, String key, KeyType type){
+    public KeyEvent(CComponent component, int keycode, String key, KeyType type){
+        super(component);
         this.keycode = keycode;
         this.key = key;
         this.type = type;
@@ -20,14 +23,22 @@ public class KeyEvent implements CEvent<KeyListener> {
     public void fire(KeyListener listener) {
         switch (type){
             case KEY_UP:
-                listener.keyUp(keycode, key);
+                listener.keyUp(keycode, key, this);
                 break;
             case KEY_DOWN:
-                listener.keyDown(keycode, key);
+                listener.keyDown(keycode, key, this);
                 break;
             case KEY_TYPED:
-                listener.keyTyped(keycode, key);
+                listener.keyTyped(keycode, key, this);
                 break;
         }
+    }
+
+    public int getKeycode() {
+        return keycode;
+    }
+
+    public String getKey() {
+        return key;
     }
 }

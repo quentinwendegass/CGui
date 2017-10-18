@@ -2,6 +2,7 @@ package at.greywind.cgui.component;
 
 import at.greywind.cgui.border.CBorderFactory;
 import at.greywind.cgui.event.FocusListener;
+import at.greywind.cgui.event.MouseEvent;
 import at.greywind.cgui.event.MouseListener;
 import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CGraphics;
@@ -66,17 +67,17 @@ public abstract class TextComponent extends CComponent implements MouseListener,
     }
 
     @Override
-    public void enter() {
+    public void enter(MouseEvent e) {
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Ibeam);
     }
 
     @Override
-    public void exit() {
+    public void exit(MouseEvent e) {
         Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
     }
 
     @Override
-    public void move(int x, int y) {
+    public void move(int x, int y, MouseEvent e) {
 
     }
 

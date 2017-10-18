@@ -52,7 +52,7 @@ public abstract class CWindow implements FocusListener {
                 @Override
                 public boolean keyDown(int keycode) {
                     if(focusedComponent != null){
-                        focusedComponent.addEventToQueue(new KeyEvent(keycode, Input.Keys.toString(keycode), KeyEvent.KeyType.KEY_DOWN));
+                        focusedComponent.addEventToQueue(new KeyEvent(focusedComponent, keycode, Input.Keys.toString(keycode), KeyEvent.KeyType.KEY_DOWN));
                     }
                     return super.keyDown(keycode);
                 }
@@ -60,7 +60,7 @@ public abstract class CWindow implements FocusListener {
                 @Override
                 public boolean keyUp(int keycode) {
                     if(focusedComponent != null){
-                        focusedComponent.addEventToQueue(new KeyEvent(keycode, Input.Keys.toString(keycode), KeyEvent.KeyType.KEY_UP));
+                        focusedComponent.addEventToQueue(new KeyEvent(focusedComponent, keycode, Input.Keys.toString(keycode), KeyEvent.KeyType.KEY_UP));
                     }
                     return super.keyUp(keycode);
                 }
@@ -68,7 +68,7 @@ public abstract class CWindow implements FocusListener {
                 @Override
                 public boolean keyTyped(char character) {
                     if(focusedComponent != null){
-                        focusedComponent.addEventToQueue(new KeyEvent((int) character, Character.toString(character), KeyEvent.KeyType.KEY_TYPED));
+                        focusedComponent.addEventToQueue(new KeyEvent(focusedComponent, (int) character, Character.toString(character), KeyEvent.KeyType.KEY_TYPED));
                     }
                     return super.keyTyped(character);
                 }

@@ -1,6 +1,8 @@
 package at.greywind.cgui.component.button;
 
 import at.greywind.cgui.event.ChangeEvent;
+import at.greywind.cgui.event.ClickEvent;
+import at.greywind.cgui.event.MouseEvent;
 import at.greywind.cgui.text.CFont;
 
 public class CToggleTextButton extends TextButton implements IToggleButton {
@@ -59,7 +61,7 @@ public class CToggleTextButton extends TextButton implements IToggleButton {
     }
 
     @Override
-    public void touchUp(int x, int y) {
+    public void touchUp(int x, int y, ClickEvent e) {
         if(isEnabled) {
             pressed = !pressed;
             set();
@@ -68,7 +70,7 @@ public class CToggleTextButton extends TextButton implements IToggleButton {
     }
 
     @Override
-    public void touchDown(int x, int y) {
+    public void touchDown(int x, int y, ClickEvent e) {
         if(isEnabled) {
             setBackground(downBackground);
             setBorder(downBorder);
@@ -76,7 +78,17 @@ public class CToggleTextButton extends TextButton implements IToggleButton {
     }
 
     @Override
-    public void exit() {
+    public void enter(MouseEvent e) {
+        if(isEnabled){
+            if(!pressed){
+                setBackground(mouseOverBackground);
+                setBorder(mouseOverBorder);
+            }
+        }
+    }
+
+    @Override
+    public void exit(MouseEvent e) {
         if(isEnabled) {
             if (!pressed) {
                 setBackground(upBackground);

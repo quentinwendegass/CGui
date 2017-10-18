@@ -1,6 +1,8 @@
 package at.greywind.cgui.component.button;
 
 import at.greywind.cgui.event.ChangeEvent;
+import at.greywind.cgui.event.ClickEvent;
+import at.greywind.cgui.event.MouseEvent;
 import at.greywind.cgui.text.CFont;
 
 public class CTextButton extends TextButton implements IButton {
@@ -34,24 +36,38 @@ public class CTextButton extends TextButton implements IButton {
 
 
     @Override
-    public void touchUp(int x, int y) {
+    public void touchUp(int x, int y, ClickEvent e) {
         if(isEnabled) {
             setUp();
         }
     }
 
     @Override
-    public void touchDown(int x, int y) {
+    public void touchDown(int x, int y, ClickEvent e) {
         if(isEnabled) {
             setDown();
         }
     }
 
     @Override
-    public void exit() {
+    public void enter(MouseEvent e) {
+        if(isEnabled){
+            if(!pressed){
+                setBackground(mouseOverBackground);
+                setBorder(mouseOverBorder);
+            }
+        }
+    }
+
+    @Override
+    public void exit(MouseEvent e) {
         if(isEnabled) {
+            setBackground(upBackground);
+            setBorder(upBorder);
+
             if (pressed) {
-                setUp();
+                pressed = false;
+                addEventToQueue(new ChangeEvent(pressed, this));
             }
         }
     }

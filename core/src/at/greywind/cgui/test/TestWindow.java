@@ -2,13 +2,15 @@ package at.greywind.cgui.test;
 
 import at.greywind.cgui.CWindow;
 import at.greywind.cgui.WindowLauncher;
+import at.greywind.cgui.component.CSlider;
+import at.greywind.cgui.component.DynamicComponent;
 import at.greywind.cgui.component.button.*;
+import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.layout.CTable;
 import at.greywind.cgui.text.CFont;
 import at.greywind.cgui.text.CFontFactory;
 
 public class TestWindow extends CWindow{
-
 
     public TestWindow(WindowLauncher launcher) {
         super(launcher);
@@ -25,6 +27,8 @@ public class TestWindow extends CWindow{
         CToggleTextButton b4 = new CToggleTextButton("4d", font);
         CToggleTextButton b5 = new CToggleTextButton("5csdcdsc", font);
 
+        CSlider s = new CSlider();
+
         CButtonGroup group = new CButtonGroup();
         group.setNoButtonPressedAllowed(false);
         group.addButtons(b1, b2, b3, b4, b5);
@@ -33,7 +37,13 @@ public class TestWindow extends CWindow{
         CTable table = new CTable(contentPanel.getWidth(), contentPanel.getHeight());
         table.setDebugMode(true);
 
-        contentPanel.add(table);
+
+        DynamicComponent component = new DynamicComponent();
+        component.setBackground(CColor.BLUE);
+        component.setSize(100,100);
+        component.setPosition(200, 200);
+        component.setMaxSize(100, 100);
+        contentPanel.add(component);
 
         table.layout(b1).right();
         table.layout(b2).right();
@@ -41,6 +51,8 @@ public class TestWindow extends CWindow{
         table.row();
         table.layout(b5).width(200).height(200);
         table.layout(b3);
+        table.row();
+        table.layout(s);
     }
 
 

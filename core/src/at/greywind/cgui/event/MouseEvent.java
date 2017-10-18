@@ -2,7 +2,7 @@ package at.greywind.cgui.event;
 
 import at.greywind.cgui.component.CComponent;
 
-public class MouseEvent extends AbstractEvent<MouseListener> {
+public class MouseEvent extends PositionEvent<MouseListener> {
 
     private MouseType type;
 
@@ -32,13 +32,13 @@ public class MouseEvent extends AbstractEvent<MouseListener> {
     public void fire(MouseListener listener) {
         switch (type){
             case EXIT:
-                listener.exit();
+                listener.exit(this);
                 break;
             case ENTER:
-                listener.enter();
+                listener.enter(this);
                 break;
             case MOVE:
-                listener.move(x, y);
+                listener.move(x, y, this);
                 break;
         }
     }

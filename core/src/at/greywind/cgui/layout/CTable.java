@@ -218,6 +218,8 @@ public class CTable extends CComponent implements Debugable, CellListener{
     @Override
     public void resized(int newWidth, int newHeight, int oldWidth, int oldHeight) {
         super.resized(newWidth, newHeight, oldWidth, oldHeight);
-        System.out.println(newWidth + " " + oldWidth);
+
+        setSize(newWidth, newHeight);
+        resizeAction();
     }
 }
