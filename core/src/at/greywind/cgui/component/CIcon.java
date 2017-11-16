@@ -4,9 +4,6 @@ import at.greywind.cgui.util.Icon;
 import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CGraphics;
 
-/**
- *
- */
 public class CIcon extends CComponent {
 
     private static final int STANDARD_PADDING = 5;
@@ -46,8 +43,9 @@ public class CIcon extends CComponent {
     @Override
     public void drawComponent(CGraphics g) {
         super.drawComponent(g);
+        g.setColor(CColor.WHITE);
 
-        g.drawTexture(icon.getTexture(), horizontalPadding, verticalPadding, icon.getWidth(), icon.getHeight(), icon.getAngle(), CColor.WHITE);
+        g.drawTexture(icon.getTexture(), horizontalPadding, verticalPadding, icon.getWidth(), icon.getHeight(), icon.getAngle());
 
     }
 

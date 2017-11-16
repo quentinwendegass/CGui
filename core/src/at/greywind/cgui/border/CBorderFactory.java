@@ -53,11 +53,11 @@ public abstract class CBorderFactory {
     }
 
     public static CBorder createDashedBorder(float dashLength, float space, float lineWidth){
-        return createDashedBorder(lineWidth,dashLength, space, CColor.BLACK);
+        return createDashedBorder(dashLength,space, lineWidth, CColor.BLACK);
     }
 
     public static CBorder createDashedBorder(float dashLength, float space, float lineWidth, CColor color){
-        return createDashedBorder(lineWidth,dashLength, space, color, color);
+        return createDashedBorder(dashLength,space, lineWidth, color, color);
     }
 
     public static CBorder createDashedBorder(float dashLength, float space, float lineWidth, CColor color1, CColor color2){

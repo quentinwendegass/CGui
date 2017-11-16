@@ -7,6 +7,8 @@ import at.greywind.cgui.text.CFont;
 
 public class CToggleTextButton extends TextButton implements IToggleButton {
 
+    private boolean touchDown = false;
+
     public CToggleTextButton(CFont font){
         this("", font);
     }
@@ -24,9 +26,22 @@ public class CToggleTextButton extends TextButton implements IToggleButton {
 
         setBackground(upBackground);
         setBorder(upBorder);
+    }
 
-        addMouseListener(this);
-        addClickListener(this);
+    @Override
+    public void mouseExit() {
+        if(isEnabled){
+            set();
+            touchDown = false;
+        }
+    }
+
+    @Override
+    public void mouseEnter() {
+        if(isEnabled && !pressed){
+            setBackground(mouseOverBackground);
+            setBorder(mouseOverBorder);
+        }
     }
 
     @Override
@@ -62,9 +77,10 @@ public class CToggleTextButton extends TextButton implements IToggleButton {
 
     @Override
     public void touchUp(int x, int y, ClickEvent e) {
-        if(isEnabled) {
+        if(isEnabled && touchDown) {
             pressed = !pressed;
             set();
+            touchDown = false;
             addEventToQueue(new ChangeEvent(pressed, this));
         }
     }
@@ -74,26 +90,7 @@ public class CToggleTextButton extends TextButton implements IToggleButton {
         if(isEnabled) {
             setBackground(downBackground);
             setBorder(downBorder);
-        }
-    }
-
-    @Override
-    public void enter(MouseEvent e) {
-        if(isEnabled){
-            if(!pressed){
-                setBackground(mouseOverBackground);
-                setBorder(mouseOverBorder);
-            }
-        }
-    }
-
-    @Override
-    public void exit(MouseEvent e) {
-        if(isEnabled) {
-            if (!pressed) {
-                setBackground(upBackground);
-                setBorder(upBorder);
-            }
+            touchDown = true;
         }
     }
 

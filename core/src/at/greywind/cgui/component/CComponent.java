@@ -2,6 +2,7 @@ package at.greywind.cgui.component;
 
 import at.greywind.cgui.CWindow;
 import at.greywind.cgui.border.CBorder;
+import at.greywind.cgui.border.NullBorder;
 import at.greywind.cgui.event.*;
 import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CColorGradient;
@@ -13,17 +14,26 @@ import java.util.ArrayList;
 
 public abstract class CComponent implements Focusable, ClickListener{
 
+    public enum ClickEventMode{WINDOW_CLICK_EVENT, COMPONENT_CLICK_EVENT}
+
+    private ClickEventMode clickEventMode = ClickEventMode.WINDOW_CLICK_EVENT;
+
+    private int id;
+
     private int snapAlign = 0;
     private int resizeAlign = 0;
 
     private int rightSpacing = -1;
     private int topSpacing = -1;
 
-    private ArrayList<CComponent> childComponents = new ArrayList<>();
-    private CComponent parentComponent = null;
+    protected ArrayList<CComponent> childComponents = new ArrayList<>();
+    protected CComponent parentComponent = null;
 
     private int x;
     private int y;
+
+    protected int oldX;
+    protected int oldY;
 
     private int width;
     private int height;
@@ -35,7 +45,7 @@ public abstract class CComponent implements Focusable, ClickListener{
     private int maxHeight = 4096;
 
     private CColorGradient background = new CColorGradient(CColor.WHITE);
-    private CBorder border = null;
+    private CBorder border = new NullBorder();
 
     private ArrayList<ClickListener> clickListeners = new ArrayList<>();
     private ArrayList<MouseListener> mouseListeners = new ArrayList<>();
@@ -43,6 +53,8 @@ public abstract class CComponent implements Focusable, ClickListener{
     private ArrayList<KeyListener> keyListeners = new ArrayList<>();
     private ArrayList<FocusListener> focusListeners = new ArrayList<>();
     private ArrayList<ComponentListener> componentListeners = new ArrayList<>();
+    private ArrayList<ScrollListener> scrollListeners = new ArrayList<>();
+
 
 
     private boolean hasFocus = false;
@@ -54,25 +66,29 @@ public abstract class CComponent implements Focusable, ClickListener{
 
     private boolean visible = true;
 
-    private CWindow window;
+    protected CWindow window;
 
     public CComponent(){
-
+        id = this.hashCode();
     }
 
-    private void processEvents(){
+    public void processEvents(){
         for (int i = 0; i < eventQueue.size; i++) {
             CEvent event = eventQueue.removeLast();
             if(event instanceof MouseEvent)
                 fireMouseEvent((MouseEvent) event);
-            else if(event instanceof ClickEvent)
-                fireClickEvent((ClickEvent)event);
+            else if(event instanceof ClickEvent && clickEventMode == ClickEventMode.COMPONENT_CLICK_EVENT)
+                fireComponentClickEvent((ClickEvent)event);
+            else if(event instanceof ClickEvent && clickEventMode == ClickEventMode.WINDOW_CLICK_EVENT)
+                fireWindowClickEvent((ClickEvent)event);
             else if(event instanceof ChangeEvent)
                 fireChangeEvent((ChangeEvent) event);
             else if(event instanceof KeyEvent)
                 fireKeyEvent((KeyEvent)event);
             else if(event instanceof ComponentEvent)
                 fireComponentEvent((ComponentEvent) event);
+            else if(event instanceof ScrollEvent)
+                fireScrollEvent((ScrollEvent) event);
         }
     }
 
@@ -88,7 +104,6 @@ public abstract class CComponent implements Focusable, ClickListener{
         changeListeners.forEach((l)->event.fire(l));
     }
 
-    //TODO: fix enter() and exit() if mouse moves directly out of the window
     private void fireMouseEvent(MouseEvent event){
         boolean flag = true;
         for(CComponent c : childComponents){
@@ -127,7 +142,40 @@ public abstract class CComponent implements Focusable, ClickListener{
         }
     }
 
-    private void fireClickEvent(ClickEvent event){
+    private void fireScrollEvent(ScrollEvent event){
+        boolean flag = false;
+        for(CComponent c : childComponents){
+            if(event.isInComponent(c) && useEventIndex && c.isVisible()){
+                if(c.eventIndex > eventIndex) {
+                    c.addEventToQueue(event);
+                }else if(c.eventIndex < eventIndex)
+                    scrollListeners.forEach((l) -> event.fire(l));
+                else{
+                    c.addEventToQueue(event);
+                    scrollListeners.forEach((l) -> event.fire(l));
+                }
+                flag = true;
+                break;
+            }else if(event.isInComponent(c) && c.isVisible()){
+                c.addEventToQueue(event);
+                flag = true;
+                break;
+            }
+        }
+        if(!flag){
+            scrollListeners.forEach((l) -> event.fire(l));
+        }
+    }
+
+    //If click event should occur when the position of the child component is out of the parent component           Nice English m8
+    private void fireWindowClickEvent(ClickEvent event){
+        event.setComponent(this);
+        event.setComponentPosition(this.getWindowX(), this.getWindowY());
+        if(event.isInComponent(this)) clickListeners.forEach((l) -> event.fire(l));
+        getChildComponents().forEach(c -> c.addEventToQueue(event));
+    }
+
+    private void fireComponentClickEvent(ClickEvent event){
         boolean flag = false;
         for(CComponent c : childComponents){
             if(event.isInComponent(c) && useEventIndex && c.isVisible()){
@@ -235,17 +283,25 @@ public abstract class CComponent implements Focusable, ClickListener{
     }
 
     public void drawComponent(CGraphics g){
+        drawThisComponent(g);
+        drawChildComponents(g);
+    }
+
+    public void drawChildComponents(CGraphics g){
+        for(CComponent c : childComponents){
+            c.updateComponent(g);
+        }
+    }
+
+    public void drawThisComponent(CGraphics g){
         g.setComponent(this);
 
         g.setColor(background);
         g.drawFilledRect(0, 0, getWidth(), getHeight());
 
         if(border != null)  border.draw(g, getWidth(), getHeight());
-
-        for(CComponent c : childComponents){
-            c.updateComponent(g);
-        }
     }
+
 
     public boolean containsPoint(int windowX, int windowY){
         Rectangle comp = new Rectangle(getWindowX(), getWindowY(), width, height);
@@ -286,10 +342,10 @@ public abstract class CComponent implements Focusable, ClickListener{
     }
 
     public void setX(int x) {
+        addEventToQueue(new ComponentEvent(this, x, getY(), ComponentEvent.Type.MOVED));
+        oldX = getX();
+
         this.x = x;
-
-        addEventToQueue(new ComponentEvent(this, getX(), getY(), ComponentEvent.Type.MOVED));
-
     }
 
     public int getY() {
@@ -297,8 +353,10 @@ public abstract class CComponent implements Focusable, ClickListener{
     }
 
     public void setY(int y) {
+        addEventToQueue(new ComponentEvent(this, getX(), y, ComponentEvent.Type.MOVED));
+        oldY = getY();
+
         this.y = y;
-        addEventToQueue(new ComponentEvent(this, getX(), getY(), ComponentEvent.Type.MOVED));
     }
 
     public int getWindowX(){
@@ -438,6 +496,10 @@ public abstract class CComponent implements Focusable, ClickListener{
         this.changeListeners.add(changeListener);
     }
 
+    public void addScrollListener(ScrollListener scrollListener) {
+        this.scrollListeners.add(scrollListener);
+    }
+
     public void addComponentListener(ComponentListener componentListener) {this.componentListeners.add(componentListener); }
     public int getEventIndex() {
         return eventIndex;
@@ -471,11 +533,23 @@ public abstract class CComponent implements Focusable, ClickListener{
         window.registerFocusComponent(this);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void useEventIndex(boolean use){
         useEventIndex = use;
     }
 
     public boolean isEventIndexInUse(){
         return useEventIndex;
+    }
+
+    public void setClickEventMode(ClickEventMode mode){
+        this.clickEventMode = mode;
     }
 }

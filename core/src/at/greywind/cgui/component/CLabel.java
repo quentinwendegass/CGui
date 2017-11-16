@@ -11,7 +11,11 @@ public class CLabel extends CComponent {
     private CFont font;
 
     public CLabel(CFont font){
-        this("", font, 0,0);
+        this("", font);
+    }
+
+    public CLabel(String text, CFont font){
+        this(text, font, 0,0);
     }
 
     public CLabel(String text, CFont font, int x, int y){

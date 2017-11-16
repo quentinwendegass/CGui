@@ -24,9 +24,29 @@ public class CTextButton extends TextButton implements IButton {
 
         setBackground(upBackground);
         setBorder(upBorder);
+    }
 
-        addMouseListener(this);
-        addClickListener(this);
+    @Override
+    public void mouseExit() {
+        if(isEnabled) {
+            setBackground(upBackground);
+            setBorder(upBorder);
+
+            if (pressed) {
+                pressed = false;
+                addEventToQueue(new ChangeEvent(pressed, this));
+            }
+        }
+    }
+
+    @Override
+    public void mouseEnter() {
+        if(isEnabled){
+            if(!pressed){
+                setBackground(mouseOverBackground);
+                setBorder(mouseOverBorder);
+            }
+        }
     }
 
     @Override
@@ -46,29 +66,6 @@ public class CTextButton extends TextButton implements IButton {
     public void touchDown(int x, int y, ClickEvent e) {
         if(isEnabled) {
             setDown();
-        }
-    }
-
-    @Override
-    public void enter(MouseEvent e) {
-        if(isEnabled){
-            if(!pressed){
-                setBackground(mouseOverBackground);
-                setBorder(mouseOverBorder);
-            }
-        }
-    }
-
-    @Override
-    public void exit(MouseEvent e) {
-        if(isEnabled) {
-            setBackground(upBackground);
-            setBorder(upBorder);
-
-            if (pressed) {
-                pressed = false;
-                addEventToQueue(new ChangeEvent(pressed, this));
-            }
         }
     }
 

@@ -15,7 +15,6 @@ public class WindowLauncher implements CApplicationListener {
     private boolean isFullscreen = false;
     private boolean isResizable = true;
 
-
     public WindowLauncher() {
         configuration = new Lwjgl3ApplicationConfiguration();
     }
@@ -24,6 +23,10 @@ public class WindowLauncher implements CApplicationListener {
         this.window = window;
         new Lwjgl3Application(this, configuration);
 
+    }
+
+    public void setWindowSizeLimits(int minWidth, int minHeight, int maxWidth, int maxHeight){
+        configuration.setWindowSizeLimits(minWidth, minHeight, maxWidth, maxHeight);
     }
 
     public void setWindowSize(int width, int height){

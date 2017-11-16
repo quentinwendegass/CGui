@@ -2,9 +2,6 @@ package at.greywind.cgui.graphic;
 
 public final class CColorGradient {
 
-    public final static CColorGradient SKY = new CColorGradient(CColor.BLUE, CColor.LIGHT_BLUE, CColor.LIGHT_BLUE, CColor.LIGHT_BLUE);
-
-
     public enum GradientDirection {
         VERTICAL, HORIZONTAL
     }

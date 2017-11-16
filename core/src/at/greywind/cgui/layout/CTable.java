@@ -17,23 +17,13 @@ public class CTable extends CComponent implements Debugable, CellListener{
     private int indexRow = 0;
     private int indexColumn = 0;
 
-    private boolean debug = true;
+    private boolean debug = false;
 
 
     public CTable(int width, int height) {
-        this(width,height, 0, 0);
-    }
-
-    public CTable(int width, int height, int rows, int columns) {
         setSize(width, height);
 
         this.rows = new ArrayList<>();
-
-        for(int i = 0; i < rows; i++)
-            addRow();
-
-        for(int i = 0; i < columns; i++)
-            addColumn();
     }
 
     @Override
@@ -180,6 +170,30 @@ public class CTable extends CComponent implements Debugable, CellListener{
         rows.get(index).getCells().forEach(cell -> cell.setHeight(height));
     }
 
+    public int getColumnWidth(int index){
+        return rows.get(0).getCell(index).getWidth();
+    }
+
+    public int getRowHeight(int index){
+        return rows.get(index).getCell(0).getHeight();
+    }
+
+    public int getColumnWidth(int startIndex, int endIndex){
+        int width = 0;
+        for(int i = startIndex; i <= endIndex; i++){
+            width += rows.get(0).getCell(i).getWidth();
+        }
+        return width;
+    }
+
+    public int getRowHeight(int startIndex, int endIndex){
+        int height = 0;
+        for(int i = startIndex; i <= endIndex; i++){
+            height += rows.get(i).getCell(0).getHeight();
+        }
+        return height;
+    }
+
     public int getColumnCount() {
         return columnCount;
     }
@@ -218,8 +232,15 @@ public class CTable extends CComponent implements Debugable, CellListener{
     @Override
     public void resized(int newWidth, int newHeight, int oldWidth, int oldHeight) {
         super.resized(newWidth, newHeight, oldWidth, oldHeight);
-
-        setSize(newWidth, newHeight);
         resizeAction();
+    }
+
+    public void clear(){
+        rows.clear();
+        columnCount = 0;
+        indexColumn = 0;
+        rowCount = 0;
+        indexRow = 0;
+        getChildComponents().clear();
     }
 }

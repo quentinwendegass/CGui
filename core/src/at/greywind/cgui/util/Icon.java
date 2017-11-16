@@ -1,5 +1,6 @@
 package at.greywind.cgui.util;
 
+import at.greywind.cgui.component.TextComponent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -15,12 +16,25 @@ public class Icon {
         this(internalPath, 0,0,0,true);
     }
 
+    public Icon(Texture texture){
+        this(texture, 0,0,0,true);
+    }
+
     public Icon(String internalPath, float width, float height){
         this(internalPath, width, height, 0, true);
     }
 
+    public Icon(Texture texture, float width, float height){
+        this(texture, width, height, 0, true);
+    }
+
+
     public Icon(String internalPath, float width, float height, float angle, boolean linearFilter){
-        this.texture = new Texture(Gdx.files.internal(internalPath));
+        this(new Texture(Gdx.files.internal(internalPath)), width, height, angle, linearFilter);
+    }
+
+    public Icon(Texture texture, float width, float height, float angle, boolean linearFilter){
+        this.texture = texture;
         this.angle = angle;
         if(width == 0 || height == 0){
             this.width = texture.getWidth();

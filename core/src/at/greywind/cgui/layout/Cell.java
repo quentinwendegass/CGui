@@ -3,6 +3,7 @@ package at.greywind.cgui.layout;
 import at.greywind.cgui.component.CComponent;
 import at.greywind.cgui.event.ComponentEvent;
 import at.greywind.cgui.event.ComponentListener;
+import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CGraphics;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class Cell extends CComponent implements CellLayout, ComponentListener{
         setWidth(content.getWidth());
         setHeight(content.getHeight());
         addComponentListener(this);
+        setBackground(CColor.CLEAR);
 
         listeners = new ArrayList<>();
     }

@@ -8,6 +8,8 @@ import at.greywind.cgui.graphic.CColor;
 import at.greywind.cgui.graphic.CColorGradient;
 import at.greywind.cgui.graphic.CGraphics;
 import at.greywind.cgui.text.CFont;
+import at.greywind.cgui.util.Intersection;
+import com.badlogic.gdx.Gdx;
 
 public abstract class TextButton extends CLabel implements Enableable{
 
@@ -27,6 +29,9 @@ public abstract class TextButton extends CLabel implements Enableable{
     protected boolean pressed = false;
     protected boolean isEnabled = true;
 
+    private boolean isMouseInComponentLastFrame = false;
+
+
     public TextButton(String text, CFont font, int x, int y, int width, int height) {
         super(text, font, x, y, width, height);
 
@@ -45,11 +50,29 @@ public abstract class TextButton extends CLabel implements Enableable{
     public void drawComponent(CGraphics g) {
         super.drawComponent(g);
 
+        handleMouse();
+
         if(!isEnabled){
             g.setColor(DISABLED_BACKGROUND_OVERLAY);
             g.drawFilledRect(0,0, getWidth(), getHeight());
         }
     }
+
+    private void handleMouse(){
+        boolean isMouseInComponent = Intersection.isPointInRect(getWindowX(), getWindowY(), getWidth(), getHeight(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+
+        if(isMouseInComponent && !isMouseInComponentLastFrame)
+            mouseEnter();
+        else if(!isMouseInComponent && isMouseInComponentLastFrame)
+            mouseExit();
+
+        isMouseInComponentLastFrame = isMouseInComponent;
+    }
+
+    public abstract void mouseExit();
+
+    public abstract void mouseEnter();
+
 
     @Override
     public boolean isEnabled() {
@@ -62,6 +85,8 @@ public abstract class TextButton extends CLabel implements Enableable{
 
     public void setDownBackgroundColor(CColorGradient downBackground) {
         this.downBackground = downBackground;
+        if(pressed) setBackground(downBackground);
+
     }
 
     public CColorGradient getUpBackgroundColor() {
@@ -70,6 +95,8 @@ public abstract class TextButton extends CLabel implements Enableable{
 
     public void setUpBackgroundColor(CColorGradient upBackground) {
         this.upBackground = upBackground;
+        if(!pressed) setBackground(upBackground);
+
     }
 
     public CBorder getDownBorder() {
@@ -78,6 +105,7 @@ public abstract class TextButton extends CLabel implements Enableable{
 
     public void setDownBorder(CBorder downBorder) {
         this.downBorder = downBorder;
+        if(pressed) setBorder(downBorder);
     }
 
     public CBorder getUpBorder() {
@@ -86,6 +114,8 @@ public abstract class TextButton extends CLabel implements Enableable{
 
     public void setUpBorder(CBorder upBorder) {
         this.upBorder = upBorder;
+        if(!pressed) setBorder(upBorder);
+
     }
 
     public CColorGradient getMouseOverBackground() {

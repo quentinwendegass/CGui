@@ -20,7 +20,6 @@ public final class DashedBorder extends CBorder{
         float heightSpacing = CBorder.calcSpacing(space, dashLength, height + lineWidth);
 
         g.setColor(color);
-        System.out.println(widthSpacing);
 
         for(int j = 0 - (int)lineWidth / 2; j <= width; j += (dashLength + widthSpacing)){
             g.drawLine(0 + j, 0, 0 + j + dashLength, 0, lineWidth);

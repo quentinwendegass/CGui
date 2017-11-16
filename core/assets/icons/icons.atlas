@@ -1,0 +1,54 @@
+icons.png
+size: 256,32
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+circle
+  rotate: false
+  xy: 68, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+color
+  rotate: false
+  xy: 134, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+delete
+  rotate: false
+  xy: 112, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+move
+  rotate: false
+  xy: 90, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+rectangle
+  rotate: false
+  xy: 24, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+resize
+  rotate: false
+  xy: 2, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+waypoint
+  rotate: false
+  xy: 46, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1

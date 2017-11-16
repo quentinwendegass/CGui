@@ -17,6 +17,10 @@ public class CTextField extends TextComponent implements KeyListener{
 
     private float horizontalPadding;
 
+    private boolean allowOnlyNumeric = false;
+
+    private int maxCharacters = 500;
+
 
     public CTextField(CFont font){
         this(font, 0, 0);
@@ -36,6 +40,8 @@ public class CTextField extends TextComponent implements KeyListener{
             setWidth(width);
             setHeight(height);
         }
+
+        horizontalPadding = STANDARD_PADDING;
 
       addKeyListener(this);
     }
@@ -81,7 +87,13 @@ public class CTextField extends TextComponent implements KeyListener{
     public void keyTyped(int keycode, String key, KeyEvent e) {
 
         if(isEnabled) {
-            keyTyped(keycode);
+            if(getText().length() < maxCharacters || keycode == 8){
+                if(allowOnlyNumeric) {
+                    if (keycode >= 48 && keycode <= 57 || keycode == 8)
+                        keyTyped(keycode);
+                }else
+                    keyTyped(keycode);
+            }
 
             if (font.getWidth(text) > getWidth() - horizontalPadding * 2) {
                 for (int i = 0; i < text.length(); i++) {
@@ -120,5 +132,13 @@ public class CTextField extends TextComponent implements KeyListener{
 
     public void setHorizontalTextPadding(float padding){
         horizontalPadding = padding;
+    }
+
+    public void setMaxCharacters(int chars){
+        this.maxCharacters = chars;
+    }
+
+    public void allowOnlyNumericInput(boolean allowOnlyNumeric){
+        this.allowOnlyNumeric = allowOnlyNumeric;
     }
 }

@@ -1,0 +1,116 @@
+{
+balls: [
+	{
+		colorRed: 0
+		colorGreen: 128
+		colorBlue: 0
+	}
+	{
+		colorRed: 0
+		colorGreen: 0
+		colorBlue: 128
+	}
+	{
+		colorRed: 0
+		colorGreen: 128
+		colorBlue: 0
+	}
+	{
+		colorRed: 128
+		colorGreen: 0
+		colorBlue: 0
+	}
+]
+bricks: [
+	{
+		colorRed: 128
+		colorGreen: 128
+		colorBlue: 0
+		breakpoints: [
+			{
+				x: 45
+				y: 645
+				width: 60
+				height: 30
+				angle: 0
+				alpha: 255
+				duration: 0
+			}
+			{
+				x: 300
+				y: 645
+				width: 60
+				height: 30
+				angle: 0
+				alpha: 255
+				duration: 2000
+			}
+			{
+				x: 45
+				y: 645
+				width: 60
+				height: 30
+				angle: 0
+				alpha: 255
+				duration: 2000
+			}
+		]
+	}
+	{
+		colorRed: 0
+		colorGreen: 128
+		colorBlue: 128
+		breakpoints: [
+			{
+				x: 300
+				y: 585
+				width: 60
+				height: 30
+				angle: 0
+				alpha: 255
+				duration: 0
+			}
+			{
+				x: 45
+				y: 585
+				width: 60
+				height: 30
+				angle: 0
+				alpha: 255
+				duration: 2000
+			}
+			{
+				x: 300
+				y: 585
+				width: 60
+				height: 30
+				angle: 0
+				alpha: 255
+				duration: 2000
+			}
+		]
+	}
+]
+shooter: {
+	breakpoints: [
+		{
+			x: 195
+			y: 0
+			angle: 110
+			duration: 0
+		}
+		{
+			x: 195
+			y: 0
+			angle: 70
+			duration: 4000
+		}
+		{
+			x: 195
+			y: 0
+			angle: 110
+			duration: 4000
+		}
+	]
+}
+}

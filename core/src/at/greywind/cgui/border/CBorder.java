@@ -6,7 +6,7 @@ import at.greywind.cgui.graphic.CGraphics;
 
 public abstract class CBorder {
 
-    protected float lineWidth;
+    protected float lineWidth = 0;
     protected CColorGradient color;
 
     protected CBorder(float lineWidth, CColor c1, CColor c2){
@@ -27,5 +27,9 @@ public abstract class CBorder {
         i += dotSize;
 
         return spacing - (i - lineLength) / counter;
+    }
+
+    public float getWidth() {
+        return lineWidth;
     }
 }

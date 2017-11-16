@@ -35,11 +35,16 @@ public class CBox extends CComponent implements ComponentListener, Debugable{
         cell.addComponentListener(this);
 
         add(cell);
+        setBounds();
         return cell;
     }
 
     @Override
     public void resized(int width, int height, ComponentEvent e) {
+        setBounds();
+    }
+
+    private void setBounds(){
         if(orientation == Orientation.VERTICAL){
             int iHeight = getHeight();
             int maxHeight = 0;

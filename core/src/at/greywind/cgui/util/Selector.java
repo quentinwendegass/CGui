@@ -35,4 +35,8 @@ public abstract class Selector<T>{
             throw new RuntimeException("Object not found in selector list!");
         }
     }
+
+    public T getSelected(){
+        return selected;
+    }
 }

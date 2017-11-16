@@ -1,10 +1,7 @@
 package at.greywind.cgui;
 
 import at.greywind.cgui.component.*;
-import at.greywind.cgui.event.ClickEvent;
-import at.greywind.cgui.event.FocusListener;
-import at.greywind.cgui.event.KeyEvent;
-import at.greywind.cgui.event.MouseEvent;
+import at.greywind.cgui.event.*;
 import at.greywind.cgui.graphic.CGraphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -72,6 +69,13 @@ public abstract class CWindow implements FocusListener {
                     }
                     return super.keyTyped(character);
                 }
+
+                @Override
+                public boolean scrolled(int amount) {
+                    ScrollEvent event = new ScrollEvent(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), amount);
+                    contentPanel.addEventToQueue(event);
+                    return super.scrolled(amount);
+                }
             });
         }
     }
@@ -129,6 +133,9 @@ public abstract class CWindow implements FocusListener {
             e.setComponentPosition(contentPanel.getWindowX(), contentPanel.getWindowY());
             contentPanel.addEventToQueue(e);
         }
+
+        MouseEvent e = new MouseEvent(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), xLF, yLF, MouseEvent.MouseType.EXIT);
+        if(!e.isInComponent(contentPanel) && e.wasLastFrameInComponent(contentPanel)) contentPanel.addEventToQueue(e);
 
         touchedLF = Gdx.input.isTouched();
         xLF = Gdx.input.getX();

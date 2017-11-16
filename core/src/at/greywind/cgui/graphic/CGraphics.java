@@ -48,6 +48,14 @@ public class CGraphics {
         componentY = c.getWindowY();
     }
 
+    public void setComponentX(int componentX) {
+        this.componentX = componentX;
+    }
+
+    public void setComponentY(int componentY) {
+        this.componentY = componentY;
+    }
+
     public void setColor(CColor color){
         setColor(new CColorGradient(color));
     }
@@ -80,20 +88,20 @@ public class CGraphics {
     }
 
     public void drawTexture(Texture texture, float x, float y){
-        drawTexture(texture, x, y, texture.getWidth(), texture.getHeight(), 0, CColor.WHITE);
+        drawTexture(texture, x, y, texture.getWidth(), texture.getHeight(), 0);
     }
 
-    public void drawTexture(Texture texture, float x, float y, float width, float height, float angle, CColor color){
+    public void drawTexture(Texture texture, float x, float y, float width, float height, float angle){
         if(shapeRenderer.isDrawing()){
             end();
-            spriteBatch.setColor(getColor(color));
+            spriteBatch.setColor(getColor(color.getBottomLeft()));
             spriteBatch.begin();
             spriteBatch.draw(new TextureRegion(texture), componentX + x, componentY + y, width / 2, height / 2, width, height, 1, 1, angle);
             spriteBatch.end();
             begin();
         }else{
             spriteBatch.begin();
-            spriteBatch.draw(texture, x, y);
+            spriteBatch.draw(texture, componentX + x, componentY + y);
             spriteBatch.end();
         }
     }
@@ -139,6 +147,38 @@ public class CGraphics {
     public void drawFilledCircle(float x, float y, float radius, int segments){
         shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.circle(componentX + x,componentY + y,radius, segments);
+    }
+
+    public void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3){
+        shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.triangle(componentX + x1, componentY + y1, componentX + x2, componentY + y2, componentX + x3, componentY + y3, getColor(color.getBottomLeft()), getColor(color.getBottomRight()), getColor(color.getTopRight()));
+    }
+
+    public void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float angle){
+        shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.identity();
+        shapeRenderer.translate(componentX + x1 + (x2 - x1) / 2,componentY + y2 + (y3 - y2)/2, 0);
+        shapeRenderer.rotate(0,0,1, angle);
+
+        shapeRenderer.triangle(0 - (x2 - x1)/2, 0 - (y3 - y2) / 2, (x2 - x1)/2, 0 - (y3 - y2) / 2, 0, (y3 - y2)/2, getColor(color.getBottomLeft()), getColor(color.getBottomRight()), getColor(color.getTopRight()));
+
+        shapeRenderer.identity();
+    }
+
+    public void drawFilledTriangle(float x1, float y1, float x2, float y2, float x3, float y3){
+        shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.triangle(componentX + x1, componentY + y1, componentX + x2, componentY + y2, componentX + x3, componentY + y3, getColor(color.getBottomLeft()), getColor(color.getBottomRight()), getColor(color.getTopRight()));
+    }
+
+    public void drawFilledTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float angle){
+        shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.identity();
+        shapeRenderer.translate(componentX + x1 + (x2 - x1) / 2,componentY + y2 + (y3 - y2)/2, 0);
+        shapeRenderer.rotate(0,0,1, angle);
+
+        shapeRenderer.triangle(0 - (x2 - x1)/2, 0 - (y3 - y2) / 2, (x2 - x1)/2, 0 - (y3 - y2) / 2, 0, (y3 - y2)/2, getColor(color.getBottomLeft()), getColor(color.getBottomRight()), getColor(color.getTopRight()));
+
+        shapeRenderer.identity();
     }
 
     public void drawLine(float x1, float y1, float x2, float y2, float lineWidth){
